@@ -1,4 +1,4 @@
-(defproject org.flatland/resting "0.1.0-SNAPSHOT"
+(defproject org.flatland/resting "0.1.0"
   :description "Simple ref-backed restful resources."
   :url "https://github.com/flatland/resting"
   :license {:name "Eclipse Public License"
