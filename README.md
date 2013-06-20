@@ -6,7 +6,7 @@ Simple ref-backed restful resources.
 
 ```clj
 (ns example
-  (:use [flatland.resting :refer [resting file-ref]]))
+  (:require [flatland.resting :refer [resting file-ref]]))
 
 (def handler (resting "things" (file-ref "things.clj")))
 ```
