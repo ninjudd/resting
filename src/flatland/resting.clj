@@ -59,15 +59,14 @@
                              {:body old}
                              (error "%s not found." id)))
                    (PATCH (str "/" name "/:from") [from id]
-                          (do (prn from id)
-                              (if (empty? id)
-                                (error "id is required")
-                                (let [new (rename! state from id)]
-                                  (if (= new id)
-                                    {:body {:id id}}
-                                    (if new
-                                      (error "%s already exists; rename failed." id)
-                                      (error "%s not found." from)))))))
+                          (if (empty? id)
+                            (error "id is required")
+                            (let [new (rename! state from id)]
+                              (if (= new id)
+                                {:body {:id id}}
+                                (if new
+                                  (error "%s already exists; rename failed." id)
+                                  (error "%s not found." from))))))
                    (GET (str "/" name "/:id") [id]
                         {:body (when-let [data (get @state id)]
                                  (assoc data :id id))})
