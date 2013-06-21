@@ -40,7 +40,7 @@ Resting.prototype.rename = function(id) {
   });
 };
 
-Resting.prototype.delete = function(opts) {
+Resting.prototype.destroy = function(opts) {
   var self = this;
   return this.http('delete', opts);
 };
