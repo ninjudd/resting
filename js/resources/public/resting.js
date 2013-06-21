@@ -5,11 +5,9 @@ var Resting = function (subclass, opts) {
   _.extend(subclass, Resting, opts);
 };
 
-Resting.http = function(method, data, path) {
-  var opts = opts || {};
-
+Resting.http = function(method, data, id) {
   return $.ajax({
-    url: _.compact([this.baseUrl, path]).join('/'),
+    url: id ? this.baseUrl + '/' + encodeURIComponent(id) : this.baseUrl,
     dataType: 'json',
     contentType: 'application/json',
     data: JSON.stringify(data),
@@ -19,8 +17,8 @@ Resting.http = function(method, data, path) {
   });
 };
 
-Resting.prototype.http = function(method, opts) {
-  return Resting.http(method, opts, encodeURIComponent(this.id));
+Resting.prototype.http = function(method, data) {
+  return this.constructor.http(method, data, this.id);
 };
 
 Resting.prototype.save = function(opts) {
