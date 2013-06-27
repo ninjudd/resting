@@ -45,14 +45,21 @@ Resting.prototype.destroy = function(opts) {
 
 Resting.load = function(id, overrides) {
   var subclass = this;
-  return this.http('get', null, id).then(function (results) {
-    if (results) {
-      var instance = new subclass();
-      instance.id    = id;
-      instance.attrs = _.extend(results, overrides);
-      return instance;
-    }
-  });
+  if (id) {
+    return this.http('get', null, id).then(function (results) {
+      if (results) {
+        var instance = new subclass();
+        instance.id    = id;
+        instance.attrs = _.extend(results, overrides);
+        _.bindAll(instance);
+        return instance;
+      }
+    });
+  } else {
+    return jQuery.Deferred(function (promise) {
+      promise.resolve(new subclass());
+    });
+  }
 };
 
 Resting.list = function() {
