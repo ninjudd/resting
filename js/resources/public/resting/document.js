@@ -17,7 +17,7 @@ define([
 
   Document.prototype.addToolbarButton = function(id, icon) {
     var button = $("<span/>", {id: id}).append($("<img/>", {class: "toolbar icon faded", src: icon}));
-    this.$("#document-toolbar").append(button);
+    this.$("#toolbar").append(button);
   };
 
   Document.prototype.registerClick = function(functionName, selector) {
@@ -34,8 +34,8 @@ define([
   Document.prototype.registerEvents = function() {
     var self = this;
 
-    this.registerClick("draw", "#document-refresh");
-    this.registerClick("showLoadForm", "#document-load");
+    this.registerClick("draw", "#refresh");
+    this.registerClick("showLoadForm", "#load");
     this.registerClick("submitLoadForm", "#load-submit");
     _.each(["save", "rename", "duplicate", "revert", "close", "destroy"], this.registerClick);
 
@@ -70,21 +70,21 @@ define([
   };
 
   Document.prototype.save = function() {
-    this.$("#document-menu").dropdown("toggle");
+    this.$("#menu").dropdown("toggle");
     this.save();
     return false;
   };
 
   Document.prototype.rename = function() {
     this.renaming = true;
-    this.$("#document-menu").dropdown("toggle");
+    this.$("#menu").dropdown("toggle");
     this.$("#name").attr({contenteditable: true}).focus();
     this.selectAll();
     return false;
   };
 
   Document.prototype.duplicate = function() {
-    this.$("#document-menu").dropdown("toggle");
+    this.$("#menu").dropdown("toggle");
     this.$("#name").attr({contenteditable: true}).text(this.model.id + " copy").focus();
     this.markChanged(true);
     this.selectAll();
@@ -114,7 +114,7 @@ define([
   };
 
   Document.prototype.revert = function() {
-    this.$("#document-menu").dropdown("toggle");
+    this.$("#menu").dropdown("toggle");
     if (this.confirmRevert()) {
       this.load(this.model.id);
     }
@@ -122,7 +122,7 @@ define([
   };
 
   Document.prototype.close = function() {
-    this.$("#document-menu").dropdown("toggle");
+    this.$("#menu").dropdown("toggle");
     if (this.confirmRevert()) {
       this.load("");
     }
@@ -132,7 +132,7 @@ define([
   Document.prototype.destroy = function() {
     var self = this;
 
-    this.$("#document-menu").dropdown("toggle");
+    this.$("#menu").dropdown("toggle");
     if (confirm(this.model.id + " will be permanently deleted. Are you sure?")) {
       this.model.destroy().done(function() {
         self.showAlert("Deleted " + doc.id, "success");
@@ -149,13 +149,13 @@ define([
   };
 
   Document.prototype.$ = function(selector) {
-    return $(this.selector).find(selector);
+    return $(this.selector).find(".resting-document").find(selector);
   };
 
   Document.prototype.draw = function(unchanged) {
     if (this.model) {
       var self = this;
-      var body = this.$("#document-body");
+      var body = this.$("#body");
       return this.model.draw(body).done(function() {
         self.displayHeader();
         // Use draw count as a proxy for changes since we only redraw when a change is made.
@@ -257,7 +257,7 @@ define([
   Document.prototype.displayHeader = function() {
     $("#name").text(this.model.id || "untitled");
     this.flipClass("disabled", $("#rename").parent(), !this.model.id);
-    $("#document-header").toggle(!!this.model.id || !this.model.isEmpty());
+    this.$("#header").toggle(!!this.model.id || !this.model.isEmpty());
   };
 
   Document.prototype.flipClass = function(classString, selector, state) {

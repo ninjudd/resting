@@ -1,64 +1,64 @@
-#document-header {
+.resting-document #header {
   display: none;
   text-align: center;
 }
 
-#document-title {
+.resting-document #title-menu {
   text-align: left;
   margin-top: 10px;
   display: inline-block;
 }
 
-#document-name:hover {
+.resting-document #title:hover {
   cursor: pointer;
 }
 
-#document-name:after {
+.resting-document #title:after {
   content: "\25BE";
   opacity: 0;
 }
 
-#document-name:hover:after {
+.resting-document #title:hover:after {
   opacity: 1;
 }
 
-#document-refresh {
+.resting-document #refresh {
   float: right;
   margin: 10px;
 }
 
-#document-refresh:hover {
+.resting-document #refresh:hover {
   cursor: pointer;
 }
 
-#name br {
+.resting-document #name br {
   display: none;
 }
 
-#edited {
+.resting-document #edited {
   display: none;
   opacity: 0.3;
 }
 
-.icon {
+.resting-document .icon {
   height: 16px;
 }
 
-.icon.faded {
+.resting-document .icon.faded {
   vertical-align: top;
   -webkit-filter: opacity(0.2);
   margin-top: 2px;
 }
 
-.icon.faded:hover {
+.resting-document .icon.faded:hover {
   -webkit-filter: opacity(0.9);
 }
 
-.alert {
+.resting-document .alert {
   margin: 0;
 }
 
-#alerts {
+.resting-document #alerts {
   position: absolute;
   z-index: 2;
   top: 0;
@@ -67,11 +67,11 @@
   text-align: center;
 }
 
-#toolbar {
+.resting-document #toolbar {
   float: left;
   margin: 10px;
 }
 
-.toolbar:hover {
+.resting-document .toolbar:hover {
   cursor: pointer;
 }
