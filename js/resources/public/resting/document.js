@@ -25,12 +25,6 @@ define([
     this.$(selector).click(_.bind(this[functionName], this));
   };
 
-  Document.prototype.blurOnEnter = function(selector) {
-    this.$(selector).keydown(function(e) {
-      if (e.keyCode == 13) $(this).blur();
-    });
-  };
-
   Document.prototype.registerEvents = function() {
     var self = this;
 
@@ -155,7 +149,7 @@ define([
   Document.prototype.draw = function(unchanged) {
     if (this.model) {
       var self = this;
-      var body = this.$("#body");
+      var body = this.$("#body")[0];
       return this.model.draw(body).done(function() {
         self.displayHeader();
         // Use draw count as a proxy for changes since we only redraw when a change is made.
@@ -181,8 +175,8 @@ define([
         self.model = m;
         self.afterLoad();
       } else {
-        self.showAlert("no such dashboard: " + name);
-        if (!self.model) load("");
+        self.showAlert("cannot find " + id);
+        if (!self.model) self.load("");
       }
     });
   };
@@ -204,8 +198,8 @@ define([
   };
 
   Document.prototype.submitLoadForm = function() {
-    var name = this.$("#load-name").autocomplete("close").val
-    load(name);
+    var name = this.$("#load-name").autocomplete("close").val();
+    this.load(name);
     this.$("#load-form").modal("toggle");
   };
 
@@ -246,8 +240,8 @@ define([
 
   Document.prototype.markChanged = function(changed) {
     this.isChanged = changed;
-    display("#edited", changed);
-    flipClass("disabled", $("#revert, #save").parent(), !changed);
+    this.display("#edited", changed);
+    this.flipClass("disabled", $("#revert, #save").parent(), !changed);
   };
 
   Document.prototype.confirmRevert = function() {
@@ -260,12 +254,24 @@ define([
     this.$("#header").toggle(!!this.model.id || !this.model.isEmpty());
   };
 
-  Document.prototype.flipClass = function(classString, selector, state) {
+  _.each(["blurOnEnter", "flipClass", "display"], function(name) {
+    Document.prototype[name] = function(selector) {
+      Document[name](this.$(selector));
+    };
+  });
+
+  Document.blurOnEnter = function(selector) {
+    $(selector).keydown(function(e) {
+      if (e.keyCode == 13) $(this).blur();
+    });
+  };
+
+  Document.flipClass = function(classString, selector, state) {
     var element = $(selector);
     state ? element.addClass(classString) : element.removeClass(classString);
   };
 
-  Document.prototype.display = function(selector, show) {
+  Document.display = function(selector, show) {
     $(selector).css({display: show ? "inline-block" : "none"})
   };
 
