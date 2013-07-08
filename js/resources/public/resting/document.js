@@ -6,12 +6,13 @@ define([
     this.type     = opts.type;
     this.selector = opts.selector;
     this.name     = opts.name;
+    this.icon     = opts.icon;
     this.drawContainer();
   };
 
   Document.prototype.drawContainer = function() {
     var container = $(this.selector);
-    container.html(this.template({name: this.name}));
+    container.html(this.template({name: this.name, icon: this.icon}));
     this.registerEvents();
   };
 
