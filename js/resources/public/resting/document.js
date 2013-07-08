@@ -16,7 +16,7 @@ define([
   };
 
   Document.prototype.addToolbarButton = function(id, icon) {
-    var button = $("<span/>", {id: id}).append($("<img/>", {class: "toolbar icon faded", src: icon}));
+    var button = $("<span/>", {id: id}).append($("<img/>", {class: "resting-icon faded", src: icon}));
     this.$("#toolbar").append(button);
   };
 

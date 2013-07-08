@@ -40,17 +40,21 @@
   opacity: 0.3;
 }
 
-.resting-document .icon {
+.resting-icon {
   height: 16px;
 }
 
-.resting-document .icon.faded {
+.resting-icon:hover {
+  cursor: pointer;
+}
+
+.resting-icon.faded {
   vertical-align: top;
   -webkit-filter: opacity(0.2);
   margin-top: 2px;
 }
 
-.resting-document .icon.faded:hover {
+.resting-icon.faded:hover {
   -webkit-filter: opacity(0.9);
 }
 
@@ -70,8 +74,4 @@
 .resting-document #toolbar {
   float: left;
   margin: 10px;
-}
-
-.resting-document .toolbar:hover {
-  cursor: pointer;
 }
