@@ -1,3 +1,19 @@
+.resting-document {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.resting-document #body {
+  position: absolute;
+  top: 20px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 .resting-document #header {
   display: none;
   text-align: center;
