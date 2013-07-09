@@ -86,7 +86,7 @@ define([
     var self  = this;
     var $name = this.$("#name");
     var name  = $name.text();
-    if (this.renaming) {  // rename
+    if (this.renaming && this.model.attrs.hash) {  // rename
       var from = self.model.id;
       this.model.rename(name).done(function() {
         self.showAlert("Renamed " + from + " to " + name, "success");
