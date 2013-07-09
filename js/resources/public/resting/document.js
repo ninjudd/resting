@@ -32,7 +32,9 @@ define([
     this.registerClick("draw", "#refresh");
     this.registerClick("showLoadForm", "#load");
     this.registerClick("submitLoadForm", "#load-submit");
-    _.each(["save", "rename", "duplicate", "revert", "close", "destroy"], this.registerClick);
+    _.each(["save", "rename", "duplicate", "revert", "close", "destroy"], function(action) {
+      self.registerClick(action);
+    });
 
     this.$("#load-name").keydown(function(e) {
       if (e.keyCode == 13) self.submitLoadForm();
@@ -64,12 +66,6 @@ define([
     });
   };
 
-  Document.prototype.save = function() {
-    this.$("#menu").dropdown("toggle");
-    this.save();
-    return false;
-  };
-
   Document.prototype.rename = function() {
     this.renaming = true;
     this.$("#menu").dropdown("toggle");
@@ -91,19 +87,19 @@ define([
     var $name = this.$("#name");
     var name  = $name.text();
     if (this.renaming) {  // rename
-      var from = self.doc.model.id;
-      this.doc.rename(name).done(function() {
+      var from = self.model.id;
+      this.model.rename(name).done(function() {
         self.showAlert("Renamed " + from + " to " + name, "success");
         if (self.afterRename) self.afterRename();
       }).fail(function(response) {
         self.showAlert(response.error);
-        $name.text(self.doc.id);
+        $name.text(self.model.id);
       });
       this.renaming = false;
     } else {  // duplicate
-      this.doc.id = name;
+      this.model.id = name;
       if (this.afterDuplicate) this.afterDuplicate();
-      this.doc.model.attrs.hash = null;
+      this.model.attrs.hash = null;
     }
     $name.attr({contenteditable: false});
   };

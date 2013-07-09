@@ -25,7 +25,8 @@ define(["underscore", "jquery"], function(_, $) {
   Resting.prototype.save = function(opts) {
     if (this.id) {
       var self = this;
-      var data = _.extend(this.attrs, {force: opts.force});
+      var data = _.extend({}, this.attrs);
+      if (opts.force) data.force = true;
       return this.http('put', data).done(function(results) {
         self.attrs.hash = results.hash;
       });
