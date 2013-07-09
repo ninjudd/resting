@@ -1,5 +1,5 @@
 (ns flatland.resting
-  (:require [compojure.core :refer [routes GET PUT DELETE PATCH]]
+  (:require [compojure.core :refer [routes context GET PUT DELETE PATCH]]
             [ring.middleware.format :refer [wrap-restful-format]]))
 
 (defn file-ref [file]
@@ -50,26 +50,27 @@
      (let [state (if (string? state)
                    (file-ref state)
                    state)]
-       (-> (routes (PUT (str "/" name "/:id") {attrs :params}
-                        (if-let [hash (save! state attrs)]
-                          {:body {:id (:id attrs), :hash hash}}
-                          (error "%s has been modified by someone else." (:id attrs))))
-                   (DELETE (str "/" name "/:id") [id]
-                           (if-let [old (delete! state id)]
-                             {:body old}
-                             (error "%s not found." id)))
-                   (PATCH (str "/" name "/:from") [from id]
-                          (if (empty? id)
-                            (error "id is required")
-                            (let [new (rename! state from id)]
-                              (if (= new id)
-                                {:body {:id id}}
-                                (if new
-                                  (error "%s already exists; rename failed." id)
-                                  (error "%s not found." from))))))
-                   (GET (str "/" name "/:id") [id]
-                        {:body (when-let [data (get @state id)]
-                                 (assoc data :id id))})
-                   (GET (str "/" name) []
-                        {:body (keys @state)}))
-           (wrap-restful-format :formats [:json-kw :edn])))))
+       (context (str "/" name) []
+                (-> (routes (PUT "/:id" {attrs :params :as request}
+                                 (if-let [hash (save! state attrs)]
+                                   {:body {:id (:id attrs), :hash hash}}
+                                   (error "%s has been modified by someone else." (:id attrs))))
+                            (DELETE "/:id" [id]
+                                    (if-let [old (delete! state id)]
+                                      {:body old}
+                                      (error "%s not found." id)))
+                            (PATCH "/:from" [from id]
+                                   (if (empty? id)
+                                     (error "id is required")
+                                     (let [new (rename! state from id)]
+                                       (if (= new id)
+                                         {:body {:id id}}
+                                         (if new
+                                           (error "%s already exists; rename failed." id)
+                                           (error "%s not found." from))))))
+                            (GET "/:id" [id]
+                                 {:body (when-let [data (get @state id)]
+                                          (assoc data :id id))})
+                            (GET "/" []
+                                 {:body (keys @state)}))
+                    (wrap-restful-format :formats [:json-kw :edn]))))))
