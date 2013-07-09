@@ -10,6 +10,10 @@ define([
     this.drawContainer();
   };
 
+  Document.prototype.scrubName = function(name) {
+    return name;
+  };
+
   Document.prototype.drawContainer = function() {
     var container = $(this.selector);
     container.html(this.template({name: this.name, icon: this.icon}));
@@ -75,8 +79,9 @@ define([
   };
 
   Document.prototype.duplicate = function() {
+    var name = this.scrubName(this.model.id + " copy");
+    this.$("#name").attr({contenteditable: true}).text(name).focus();
     this.$("#menu").dropdown("toggle");
-    this.$("#name").attr({contenteditable: true}).text(this.model.id + " copy").focus();
     this.markChanged(true);
     this.selectAll();
     return false;
@@ -85,7 +90,9 @@ define([
   Document.prototype.changeName = function() {
     var self  = this;
     var $name = this.$("#name");
-    var name  = $name.text();
+    var name  = this.scrubName($name.text());
+    $name.text(name);
+
     if (this.renaming && this.model.attrs.hash) {  // rename
       var from = self.model.id;
       this.model.rename(name).done(function() {
