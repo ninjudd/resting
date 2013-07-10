@@ -1,5 +1,5 @@
 define([
-  "text!resting/document.html", "underscore", "jquery_ui", "bootstrap"
+  "text!resting/document.html", "underscore_contrib", "jquery_ui", "bootstrap"
 ], function(html, _, $) {
 
   var Document = function(opts) {
@@ -260,7 +260,8 @@ define([
 
   _.each(["blurOnEnter", "flipClass", "display"], function(name) {
     Document.prototype[name] = function(selector) {
-      Document[name](this.$(selector));
+      var args = _.cons(this.$(selector), _.rest(arguments));
+      Document[name].apply(Document, args);
     };
   });
 
