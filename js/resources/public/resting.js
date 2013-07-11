@@ -23,6 +23,7 @@ define(["underscore", "jquery"], function(_, $) {
   };
 
   Resting.prototype.save = function(opts) {
+    opts = opts || {};
     if (this.id) {
       var self = this;
       var data = _.extend({}, this.attrs);
