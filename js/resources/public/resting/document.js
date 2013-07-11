@@ -14,9 +14,12 @@ define([
     return name;
   };
 
+  Document.prototype.container = function() {
+    return $(this.selector);
+  };
+
   Document.prototype.drawContainer = function() {
-    var container = $(this.selector);
-    container.html(this.template({name: this.name, icon: this.icon}));
+    this.container().html(this.template({name: this.name, icon: this.icon}));
     this.registerEvents();
   };
 
@@ -147,7 +150,7 @@ define([
   };
 
   Document.prototype.$ = function(selector) {
-    return $(this.selector).find(".resting-document").find(selector);
+    return this.container().find(".resting-document").find(selector);
   };
 
   Document.prototype.draw = function(unchanged) {
