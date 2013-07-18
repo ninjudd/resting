@@ -43,7 +43,7 @@ define([
       self.registerClick(action);
     });
 
-    this.$("#load-name").chosen({width: "230px"});
+    this.$("#load-name").chosen();
 
     this.$("#name").blur(function() {
       self.changeName();

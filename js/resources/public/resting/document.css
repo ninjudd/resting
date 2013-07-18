@@ -95,3 +95,7 @@
 .resting-document .modal-body {
   overflow-y: visible;
 }
+
+.resting-document #load_name_chzn {
+  width: 230px !important;
+}
