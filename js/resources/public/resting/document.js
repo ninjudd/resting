@@ -194,7 +194,7 @@ define([
           $loadName.append($("<option>", {value: v}).text(v));
         });
         $loadName.trigger("liszt:updated");
-        $loadName.trigger("liszt:open");
+        $('#load-form .chzn-drop .chzn-search input[type="text"]').focus();
       });
     });
   };
