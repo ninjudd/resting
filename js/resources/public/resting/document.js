@@ -189,6 +189,7 @@ define([
     this.$("#load-form").modal('toggle').on('shown', function() {
       self.type.list().done(function(names) {
         $loadName.empty();
+        names = names || [];
         $.each(names.sort(), function(k, v) {
           $loadName.append($("<option>", {value: v}).text(v));
         });
