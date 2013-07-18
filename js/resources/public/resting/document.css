@@ -91,3 +91,7 @@
   float: left;
   margin: 10px;
 }
+
+.resting-document .modal-body {
+  overflow-y: visible;
+}

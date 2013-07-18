@@ -1,5 +1,5 @@
 define([
-  "text!resting/document.html", "underscore_contrib", "jquery_ui", "bootstrap"
+  "text!resting/document.html", "underscore_contrib", "jquery_ui", "bootstrap", "chosen"
 ], function(html, _, $) {
 
   var Document = function(opts) {
@@ -43,12 +43,7 @@ define([
       self.registerClick(action);
     });
 
-    this.$("#load-name").keydown(function(e) {
-      if (e.keyCode == 13) self.submitLoadForm();
-    }).autocomplete({
-      minLength: 0,
-      source: _.bind(this.autocomplete, this),
-    });
+    this.$("#load-name").chosen({width: "230px"});
 
     this.$("#name").blur(function() {
       self.changeName();
@@ -190,22 +185,21 @@ define([
 
   Document.prototype.showLoadForm = function() {
     var $loadName = this.$("#load-name");
+        self      = this
     this.$("#load-form").modal('toggle').on('shown', function() {
-      $loadName.val("").focus();
-    });
-  };
-
-  Document.prototype.autocomplete = function(request, response) {
-    this.type.list().done( function(names) {
-      var matches = _.filter(names, function(name) {
-        return name.indexOf(request.term) >= 0;
+      self.type.list().done(function(names) {
+        $loadName.empty();
+        $.each(names.sort(), function(k, v) {
+          $loadName.append($("<option>", {value: v}).text(v));
+        });
+        $loadName.trigger("liszt:updated");
+        $loadName.trigger("liszt:open");
       });
-      response(matches);
     });
   };
 
   Document.prototype.submitLoadForm = function() {
-    var name = this.$("#load-name").autocomplete("close").val();
+    var name = this.$("#load-name option:selected").text();
     this.load(name);
     this.$("#load-form").modal("toggle");
   };
