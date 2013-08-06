@@ -30,7 +30,11 @@ define([
 
   Document.prototype.registerClick = function(functionName, selector) {
     selector = selector || "#" + functionName;
-    this.$(selector).click(_.bind(this[functionName], this));
+    var self = this;
+    this.$(selector).click(function () {
+      self[functionName].call(self);
+      return false;
+    });
   };
 
   Document.prototype.registerEvents = function() {
@@ -211,7 +215,6 @@ define([
 
   Document.prototype.save = function(opts) {
     var self = this;
-
     this.model.id = this.model.id || prompt("Save as:");
 
     this.model.save(opts).done(function(results) {
