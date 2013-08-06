@@ -34,6 +34,14 @@ define(["underscore", "jquery"], function(_, $) {
     }
   };
 
+  Resting.prototype.draw = function() {
+    // override for Resting.Document
+  };
+
+  Resting.prototype.clear = function() {
+    // override for Resting.Document
+  };
+
   Resting.prototype.rename = function(id) {
     var self = this;
     return this.http('patch', {id: id}).done(function() {

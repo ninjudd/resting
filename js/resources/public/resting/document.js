@@ -174,7 +174,7 @@ define([
     var self = this;
 
     this.draws = 0;
-    if (this.model) this.model.clearRefresh();
+    if (this.model) this.model.clear();
 
     this.type.load(id).then(function(m) {
       if (m) {
