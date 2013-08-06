@@ -246,7 +246,7 @@ define([
   Document.prototype.markChanged = function(changed) {
     this.isChanged = changed;
     this.display("#edited", changed);
-    this.flipClass("disabled", $("#revert, #save").parent(), !changed);
+    this.flipClass($("#revert, #save").parent(), !changed, "disabled");
   };
 
   Document.prototype.confirmRevert = function() {
@@ -255,7 +255,7 @@ define([
 
   Document.prototype.displayHeader = function() {
     $("#name").text(this.model.id || "untitled");
-    this.flipClass("disabled", $("#rename").parent(), !this.model.id);
+    this.flipClass($("#rename").parent(), !this.model.id, "disabled");
     this.$("#header").toggle(!!this.model.id || !this.model.isEmpty());
   };
 
@@ -272,7 +272,7 @@ define([
     });
   };
 
-  Document.flipClass = function(classString, selector, state) {
+  Document.flipClass = function(selector, state, classString) {
     var element = $(selector);
     state ? element.addClass(classString) : element.removeClass(classString);
   };
