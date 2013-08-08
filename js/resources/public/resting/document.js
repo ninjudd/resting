@@ -198,6 +198,7 @@ define([
         $.each(names.sort(), function(k, v) {
           $loadName.append($("<option>", {value: v}).text(v));
         });
+        $("#load-name").val(self.model.id);
         $loadName.trigger("liszt:updated");
         $('#load-form .chzn-drop .chzn-search input[type="text"]').focus();
       });
