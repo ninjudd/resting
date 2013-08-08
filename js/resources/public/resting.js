@@ -54,14 +54,19 @@ define(["underscore", "jquery"], function(_, $) {
     return this.http('delete', opts);
   };
 
+  Resting.prototype.overrideAttrs = function(overrides) {
+    this.attrs = _.extend(this.attrs, overrides);
+  };
+
   Resting.load = function(id, overrides) {
     var subclass = this;
     if (id) {
       return this.http('get', null, id).then(function (results) {
         if (results) {
           var instance = new subclass();
-          instance.id    = id;
-          instance.attrs = _.extend(results, overrides);
+          instance.id  = id;
+          instance.attrs = results;
+          instance.overrideAttrs(overrides);
           _.bindAll(instance);
           return instance;
         }
