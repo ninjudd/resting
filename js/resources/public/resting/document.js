@@ -189,7 +189,8 @@ define([
 
   Document.prototype.showLoadForm = function() {
     var $loadName = this.$("#load-name");
-        self      = this
+    var self      = this;
+
     this.$("#load-form").modal('toggle').on('shown', function() {
       self.type.list().done(function(names) {
         $loadName.empty();
