@@ -1,4 +1,4 @@
-(defproject org.flatland/resting-js "0.1.7"
+(defproject org.flatland/resting-js "0.1.8"
   :description "Javascript client for resting."
   :url "https://github.com/flatland/resting"
   :license {:name "Eclipse Public License"
