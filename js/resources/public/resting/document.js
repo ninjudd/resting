@@ -23,9 +23,14 @@ define([
     this.registerEvents();
   };
 
-  Document.prototype.addToolbarButton = function(id, icon) {
+  Document.prototype.addToolbarButton = function(id, icon, side) {
+    side = side || 'left';
     var button = $("<span/>", {id: id}).append($("<img/>", {class: "resting-icon faded", src: icon}));
-    this.$("#toolbar").append(button);
+    if (side == "left") {
+      this.$("#left-toolbar").append(button);
+    } else if (side == "right") {
+      this.$("#right-toolbar").prepend(button);
+    }
   };
 
   Document.prototype.registerClick = function(functionName, selector) {
@@ -258,7 +263,7 @@ define([
   Document.prototype.displayHeader = function() {
     $("#name").text(this.model.id || "untitled");
     this.flipClass($("#rename").parent(), !this.model.id, "disabled");
-    this.$("#header").toggle(!!this.model.id || !this.model.isEmpty());
+    this.$("#header,#right-toolbar").toggle(!!this.model.id || !this.model.isEmpty());
   };
 
   _.each(["blurOnEnter", "flipClass", "display"], function(name) {

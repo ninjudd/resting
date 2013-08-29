@@ -39,7 +39,6 @@
 }
 
 .resting-document #refresh {
-  float: right;
   margin: 10px;
 }
 
@@ -87,9 +86,18 @@
   text-align: center;
 }
 
-.resting-document #toolbar {
+.resting-document #left-toolbar {
   float: left;
   margin: 10px;
+  width: 400px;
+}
+
+.resting-document #right-toolbar {
+  display: none;
+  float: right;
+  margin: 10px;
+  width: 400px;
+  text-align: right;
 }
 
 .resting-document .modal-body {
